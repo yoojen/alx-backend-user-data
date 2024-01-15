@@ -49,7 +49,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """connect to myql db"""
     db_config = {
         "host": os.environ.get("PERSONAL_DATA_DB_HOST", "localhost"),
