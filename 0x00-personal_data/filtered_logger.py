@@ -2,6 +2,7 @@
 """replace in a string using regex"""
 import re
 from typing import List
+import logging
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -26,7 +27,6 @@ class RedactingFormatter(logging.Formatter):
         super(RedactingFormatter, self).__init__(self.FORMAT)
 
     def format(self, record: logging.LogRecord) -> str:
-        print(record.msg)
         record.msg = filter_datum(
             self.fields, self.REDACTION, super().format(record=record), self.SEPARATOR)
         return record.msg
