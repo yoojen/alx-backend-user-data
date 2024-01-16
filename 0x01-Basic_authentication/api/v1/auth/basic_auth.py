@@ -6,5 +6,5 @@ from api.v1.auth.auth import Auth
 
 
 class BasicAuth(Auth):
-    """use basic auth authorization"""
+    """manages the API authentication"""
     pass
