@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Basic flask application"""
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ def home():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def post_user():
+def users():
     """method to post user in the db"""
     try:
         email = request.form.get('email')
@@ -30,7 +30,7 @@ def post_user():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def update_user_session():
+def login():
     """method to post user session in the db"""
     try:
         email = request.form.get('email')
@@ -45,6 +45,17 @@ def update_user_session():
             return res
     else:
         abort(401)
+
+
+@app.route('/session', methonds=['DELETE'], strict_slashes=False)
+def logout():
+    """logout the use by destroying session id"""
+    cur_user_session_id = request.cookies.get('session_id')
+    found_user = AUTH.get_user_from_session_id(cur_user_session_id)
+    if not found_user:
+        abort(403)
+    AUTH.destroy_session(found_user.id)
+    return redirect('/')
 
 
 if __name__ == "__main__":
