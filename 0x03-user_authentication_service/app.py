@@ -38,7 +38,7 @@ def update_user_session():
     except KeyError:
         abort(401)
 
-    session_id = AUTH.create_session(email, password)
+    session_id = AUTH.create_session(email)
     if session_id:
         res = jsonify({"email": email, "message": "logged in"})
         res.set_cookie('session_id', session_id)
