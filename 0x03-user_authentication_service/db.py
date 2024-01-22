@@ -64,7 +64,7 @@ class DB:
             raise NoResultFound
         return user
 
-    def update_user(self, user_id, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """searches for user and update when found"""
         if not kwargs:
             raise InvalidRequestError
