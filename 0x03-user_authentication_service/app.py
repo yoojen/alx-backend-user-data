@@ -43,8 +43,8 @@ def update_user_session():
             res = jsonify({"email": email, "message": "logged in"})
             res.set_cookie('session_id', session_id)
             return res
-        else:
-            abort(401)
+    else:
+        abort(401)
 
 
 if __name__ == "__main__":
