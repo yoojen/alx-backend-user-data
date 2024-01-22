@@ -2,7 +2,7 @@
 """Hash method"""
 
 from db import DB
-from bcrypt import hashpw, gensalt
+from bcrypt import hashpw, gensalt, checkpw
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
@@ -39,3 +39,14 @@ class Auth:
             return registered_user
         else:
             raise ValueError(f"User {email} already exists")
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """locate user from the db storage"""
+        try:
+            found_user = self._db.find_user_by(email=email)
+            if checkpw(password.encode(), found_user.hashed_password):
+                return True
+            else:
+                return False
+        except NoResultFound:
+            return False
