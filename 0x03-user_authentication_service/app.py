@@ -37,14 +37,14 @@ def update_user_session():
         password = request.form.get('password')
     except KeyError:
         abort(401)
-
-    session_id = AUTH.create_session(email)
-    if session_id:
-        res = jsonify({"email": email, "message": "logged in"})
-        res.set_cookie('session_id', session_id)
-        return res
-    else:
-        abort(401)
+    if AUTH.valid_login(email, password):
+        session_id = AUTH.create_session(email)
+        if session_id:
+            res = jsonify({"email": email, "message": "logged in"})
+            res.set_cookie('session_id', session_id)
+            return res
+        else:
+            abort(401)
 
 
 if __name__ == "__main__":
