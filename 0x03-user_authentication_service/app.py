@@ -23,10 +23,28 @@ def post_user():
     except KeyError:
         abort(400)
     try:
-        AUTH.register_user(email, password)
-        return jsonify({"email": email, "message": "user created"})
+        user = AUTH.register_user(email, password)
+        return jsonify({"email": user.email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
+
+
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
+def update_user_session():
+    """method to post user session in the db"""
+    try:
+        email = request.form.get('email')
+        password = request.form.get('password')
+    except KeyError:
+        abort(401)
+
+    session_id = AUTH.create_session(email, password)
+    if session_id:
+        res = jsonify({"email": email, "message": "logged in"})
+        res.set_cookie('session_id', session_id)
+        return res
+    else:
+        abort(401)
 
 
 if __name__ == "__main__":
