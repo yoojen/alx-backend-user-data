@@ -58,5 +58,18 @@ def logout():
     return redirect('/')
 
 
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile():
+    """respond to GET /profile"""
+    user_session_id = request.form.get('session_id')
+    found_user = AUTH.get_user_from_session_id(user_session_id)
+    print(found_user.email)
+    print(found_user.session_id)
+    if found_user and found_user.session_id:
+        return jsonify({"email": found_user.email}), 200
+    else:
+        abort(403)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=True)
