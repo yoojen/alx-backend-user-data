@@ -77,8 +77,6 @@ class Auth:
             found_user = self._db.find_user_by(session_id=session_id)
         except NoResultFound:
             return None
-        print(f"user session from get session auth method -> {found_user}")
-
         return found_user
 
     def destroy_session(self, user_id: int) -> None:
@@ -88,3 +86,13 @@ class Auth:
         except Exception:
             return None
         return None
+
+    def get_reset_password_token(self, email: str) -> str:
+        """find user associated to the email"""
+        try:
+            found_user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            raise ValueError(f"User {email} doesn't exists")
+        reset_token = uuid4()
+        self._db.update_user(found_user.id, reset_token=reset_token)
+        return reset_token

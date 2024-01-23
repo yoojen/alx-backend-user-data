@@ -35,7 +35,6 @@ def login():
     try:
         email = request.form.get('email')
         password = request.form.get('password')
-        print(email, password)
     except KeyError:
         abort(401)
     if AUTH.valid_login(email, password):
@@ -63,14 +62,26 @@ def logout():
 def profile():
     """respond to GET /profile"""
     user_session_id = request.cookies.get('session_id', None)
-    print(
-        f"user_session_id from profile route from cookie -> {user_session_id}")
     found_user = AUTH.get_user_from_session_id(user_session_id)
 
     if found_user is not None:
         return jsonify({"email": found_user.email}), 200
     else:
         abort(403)
+
+
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def get_reset_password_token():
+    """handle reset password POST request"""
+    email = request.form.get('email', None)
+    if email:
+        try:
+            reset_token = AUTH.get_reset_password_token(email)
+        except ValueError:
+            abort(403)
+    else:
+        abort(403)
+    return jsonify({"email": email, "reset_token": reset_token})
 
 
 if __name__ == "__main__":
