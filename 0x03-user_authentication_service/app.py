@@ -35,6 +35,7 @@ def login():
     try:
         email = request.form.get('email')
         password = request.form.get('password')
+        print(email, password)
     except KeyError:
         abort(401)
     if AUTH.valid_login(email, password):
@@ -50,7 +51,7 @@ def login():
 @app.route('/session', methods=['DELETE'], strict_slashes=False)
 def logout():
     """logout the use by destroying session id"""
-    cur_user_session_id = request.cookies.get('session_id')
+    cur_user_session_id = request.cookies.get('session_id', None)
     found_user = AUTH.get_user_from_session_id(cur_user_session_id)
     if not found_user:
         abort(403)
@@ -61,7 +62,8 @@ def logout():
 @app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile():
     """respond to GET /profile"""
-    user_session_id = request.form.get('session_id')
+    user_session_id = request.form.get('session_id', None)
+    print(user_session_id)
     found_user = AUTH.get_user_from_session_id(user_session_id)
     print(found_user.email)
     print(found_user.session_id)
