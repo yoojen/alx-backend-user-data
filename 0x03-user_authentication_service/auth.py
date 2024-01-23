@@ -91,8 +91,20 @@ class Auth:
         """find user associated to the email"""
         try:
             found_user = self._db.find_user_by(email=email)
+            reset_token = uuid4()
+            self._db.update_user(found_user.id, reset_token=reset_token)
+            return reset_token
         except NoResultFound:
-            raise ValueError(f"User {email} doesn't exists")
-        reset_token = uuid4()
-        self._db.update_user(found_user.id, reset_token=reset_token)
-        return reset_token
+            raise ValueError
+        except InvalidRequestError:
+            return None
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """update the password for the user"""
+        try:
+            found_user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+        password = _hash_password(password)
+        self._db.update_user(
+            found_user.id, hashed_password=password, reset_password=None)
