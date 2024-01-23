@@ -47,7 +47,7 @@ def login():
         abort(401)
 
 
-@app.route('/session', methonds=['DELETE'], strict_slashes=False)
+@app.route('/session', methods=['DELETE'], strict_slashes=False)
 def logout():
     """logout the use by destroying session id"""
     cur_user_session_id = request.cookies.get('session_id')
