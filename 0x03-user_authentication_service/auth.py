@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hash method"""
+"""Authentication model"""
 
 from db import DB
 from bcrypt import hashpw, gensalt, checkpw
