@@ -63,7 +63,8 @@ def logout():
 def profile():
     """respond to GET /profile"""
     user_session_id = request.form.get('session_id', None)
-    print(user_session_id)
+    print(
+        f"user_session_id from profile route from cookie -> {user_session_id}")
     found_user = AUTH.get_user_from_session_id(user_session_id)
 
     if found_user is not None:
