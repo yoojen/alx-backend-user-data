@@ -50,7 +50,7 @@ class DB:
 
         Keyword arguments:
         args -- arguments with key=value
-        Return: returns the first row found in the users table 
+        Return: returns the first row found in the users table
         """
         if not kwargs:
             raise InvalidRequestError
