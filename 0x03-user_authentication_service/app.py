@@ -65,7 +65,7 @@ def profile():
     user_session_id = request.form.get('session_id', None)
     found_user = AUTH.get_user_from_session_id(user_session_id)
 
-    if found_user.session_id is not None:
+    if found_user is not None:
         return jsonify({"email": found_user.email}), 200
     else:
         abort(403)
