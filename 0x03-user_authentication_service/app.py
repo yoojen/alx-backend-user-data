@@ -52,7 +52,7 @@ def logout():
     """logout the use by destroying session id"""
     cur_user_session_id = request.cookies.get('session_id', None)
     if cur_user_session_id is None:
-        abort(403
+        abort(403)
     found_user = AUTH.get_user_from_session_id(cur_user_session_id)
     if found_user is None:
         abort(403)
