@@ -62,7 +62,7 @@ def logout():
 @app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile():
     """respond to GET /profile"""
-    user_session_id = request.form.get('session_id', None)
+    user_session_id = request.cookies.get('session_id', None)
     print(
         f"user_session_id from profile route from cookie -> {user_session_id}")
     found_user = AUTH.get_user_from_session_id(user_session_id)
