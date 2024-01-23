@@ -65,11 +65,12 @@ def profile():
     user_session_id = request.form.get('session_id', None)
     print(user_session_id)
     found_user = AUTH.get_user_from_session_id(user_session_id)
-    print(found_user.email)
-    print(found_user.session_id)
+
     if found_user and found_user.session_id:
         return jsonify({"email": found_user.email}), 200
     else:
+        print(found_user.email)
+        print(found_user.session_id)
         abort(403)
 
 
