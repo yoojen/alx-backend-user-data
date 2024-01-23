@@ -62,6 +62,7 @@ class DB:
         user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound
+        print(f"user from find user db method -> {user}")
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:

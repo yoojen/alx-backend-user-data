@@ -75,9 +75,10 @@ class Auth:
         """
         try:
             found_user = self._db.find_user_by(session_id=session_id)
-            print(found_user)
         except NoResultFound:
             return None
+        print(f"user session from get session auth method -> {found_user}")
+
         return found_user
 
     def destroy_session(self, user_id: int) -> None:
