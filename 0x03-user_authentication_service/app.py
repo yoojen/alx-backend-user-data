@@ -94,7 +94,8 @@ def update_password():
         request.form.get('reset_token', None), \
         request.form.get('new_password', None)
     try:
-        found_user = AUTH._db.find_user_by(reset_token=reset_token)
+        found_user = AUTH._db.find_user_by(
+            email=email, reset_token=reset_token)
     except ValueError:
         abort(403)
     AUTH.update_password(reset_token, new_password)
