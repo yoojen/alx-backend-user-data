@@ -95,10 +95,10 @@ class Auth:
             found_user = self._db.find_user_by(email=email)
         except NoResultFound:
             raise ValueError
-
-        reset_token = uuid4()
-        self._db.update_user(found_user.id, reset_token=reset_token)
-        return reset_token
+        if found_user is not None:
+            reset_token = uuid4()
+            self._db.update_user(found_user.id, reset_token=reset_token)
+            return reset_token
 
     def update_password(self, reset_token: str, password: str) -> None:
         """update the password for the user"""
